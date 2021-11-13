@@ -124,7 +124,7 @@ def delete_by_id(db_schema, table_name, id_name, id_no):
 
 def get_by_id(db_schema, table_name, id_name, id_no):
 
-    sql = "select * from " + db_schema + "." + table_name + " where " + id_name + "=" + id_no
+    sql = "select * from " + db_schema + "." + table_name + " where " + id_name + "= \"" + id_no + "\""
     print(sql)
     conn = _get_db_connection()
     cur = conn.cursor()
@@ -134,6 +134,41 @@ def get_by_id(db_schema, table_name, id_name, id_no):
     conn.close()
 
     return res
+
+
+def get_groups(id_no):
+    sql = "SELECT UsersGroups.Groups.group_id " + \
+          "FROM UsersGroups.Groups " + \
+          "INNER JOIN UsersGroups.BelongsTo ON UsersGroups.Groups.group_id=UsersGroups.BelongsTo.group_id " + \
+          "WHERE username = \"" + id_no + "\""
+
+    print(sql)
+    conn = _get_db_connection()
+    cur = conn.cursor()
+    res = cur.execute(sql)
+    res = cur.fetchall()
+    conn.commit()
+    conn.close()
+
+    return res
+
+
+def get_users(id_no):
+    sql = "SELECT UsersGroups.Users.username " + \
+          "FROM UsersGroups.Users " + \
+          "INNER JOIN UsersGroups.BelongsTo ON UsersGroups.Users.username=UsersGroups.BelongsTo.username " + \
+          "WHERE group_id = " + id_no
+
+    print(sql)
+    conn = _get_db_connection()
+    cur = conn.cursor()
+    res = cur.execute(sql)
+    res = cur.fetchall()
+    conn.commit()
+    conn.close()
+
+    return res
+
 
 def get_next_id(db_schema, table_name, id_name):
     sql = f"select * from {db_schema}.{table_name} order by {id_name} desc limit 1"
