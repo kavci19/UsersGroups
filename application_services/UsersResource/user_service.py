@@ -1,5 +1,5 @@
 from application_services.BaseApplicationResource import BaseApplicationResource
-import database_services.RDBService as d_service
+import database_services.RDBService as DBService
 
 
 class UserResource(BaseApplicationResource):
@@ -9,33 +9,38 @@ class UserResource(BaseApplicationResource):
 
     @classmethod
     def get_by_template(cls, template):
-        res = d_service.find_by_template("UsersGroups", "Users",
-                                       template, None)
+        res = DBService.find_by_template("UsersGroups", "Users", template)
         return res
 
     @classmethod
     def insert_by_template(cls, template):
-        res = d_service.insert_by_template("UsersGroups", "Users", 'username', template)
+        res = DBService.insert_user_by_template("UsersGroups", "Users", 'username', template)
         return res
 
     @classmethod
-    def delete_by_id(cls, id):
-        res = d_service.delete_by_id("UsersGroups", "Users", "username", id)
+    def delete_by_id(cls, id_to_delete):
+        res = DBService.delete_by_id("UsersGroups", "Users", "username", id_to_delete)
         return res
 
     @classmethod
-    def get_by_id(cls, id):
-        res = d_service.get_by_id("UsersGroups", "Users", "username", id)
+    def get_by_id(cls, id_to_get):
+        res = DBService.get_by_id("UsersGroups", "Users", "username", id_to_get)
         return res
 
     @classmethod
     def update_by_id(cls, template, id_no):
-        res = d_service.update_by_id('UsersGroups', 'Users', template, 'username', id_no)
+        res = DBService.update_by_id('UsersGroups', 'Users', template, 'username', id_no)
+        return res
+
+    @classmethod
+    def add_user_to_group(cls, template, username):
+        group_id = template["group_id"]
+        res = DBService.add_user_to_group('UsersGroups', 'BelongsTo', group_id, username)
         return res
 
     @classmethod
     def get_groups(cls, user_id):
-        res = d_service.get_groups(user_id)
+        res = DBService.get_groups(user_id)
         res = cls.get_links(res, user_id)
         return res
 

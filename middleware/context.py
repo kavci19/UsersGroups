@@ -1,8 +1,8 @@
-
 import os
 
 # This is a bad place for this import
 import pymysql
+
 
 def get_db_info():
     """
@@ -14,7 +14,9 @@ def get_db_info():
     db_user = os.environ.get("DBUSER", None)
     db_password = os.environ.get("DBPASSWORD", None)
 
-    #This is local testing case. Set Environment variables in Pycharm to access your local MySQL DB / Table
+    # This is local testing case.
+    # Set Environment variables in Pycharm to
+    # access your local MySQL DB / Table
     if db_host is not None:
         db_info = {
             "host": db_host,
@@ -23,11 +25,11 @@ def get_db_info():
             "cursorclass": pymysql.cursors.DictCursor
         }
     else:
-        db_info = { 
-                "host": 'database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com',
-                "user": 'admin',
-                "password": 'Thisiswat3r!',
-                "cursorclass": pymysql.cursors.DictCursor 
+        db_info = {
+            "host": 'database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com',
+            "user": 'admin',
+            "password": 'Thisiswat3r!',
+            "cursorclass": pymysql.cursors.DictCursor
         }
 
     return db_info

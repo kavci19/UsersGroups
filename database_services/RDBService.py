@@ -1,8 +1,8 @@
 import pymysql
-import json
 import logging
-from datetime import datetime
 import middleware.context as context
+# import json
+# from datetime import datetime
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger()
@@ -30,7 +30,7 @@ def get_by_prefix(db_schema, table_name, column_name, value_prefix):
           column_name + " like " + "'" + value_prefix + "%'"
     print("SQL Statement = " + cur.mogrify(sql, None))
 
-    res = cur.execute(sql)
+    cur.execute(sql)
     res = cur.fetchall()
 
     conn.close()
@@ -42,7 +42,6 @@ def get_by_prefix(db_schema, table_name, column_name, value_prefix):
 def _get_where_clause_args(template):
     terms = []
     args = []
-    clause = None
 
     if template is None or template == {}:
         clause = ""
@@ -57,14 +56,14 @@ def _get_where_clause_args(template):
     return clause, args
 
 
-def find_by_template(db_schema, table_name, template, field_list):
+def find_by_template(db_schema, table_name, template):
     wc, args = _get_where_clause_args(template)
 
     conn = _get_db_connection()
     cur = conn.cursor()
 
     sql = "select * from " + db_schema + "." + table_name + " " + wc
-    res = cur.execute(sql, args=args)
+    cur.execute(sql, args=args)
     res = cur.fetchall()
 
     conn.close()
@@ -72,49 +71,88 @@ def find_by_template(db_schema, table_name, template, field_list):
     return res
 
 
-def get_insertion_args(db_schema, table_name, id_name, template):
-    max_id = get_next_id(db_schema, table_name, id_name)
-    template = dict(template)
-    template['userID'] = max_id
-    cols = []
-    vals = []
+def get_insertion_args(template, id_name=None, id_no=None):
     if template is None or template == {}:
         return None, None
     else:
-        for k, v in template.items():
-            if isinstance(v, str):
-                vals.append("'%s'" % (v))
+        cols = []
+        vals = []
+
+        if id_name is not None and id_no is not None:
+            cols.append(id_name)
+            if isinstance(id_no, str):
+                vals.append("'%s'" % id_no)
             else:
-                vals.append("%s" % (v))
-            cols.append(k)
-    cols_clause = '(' + ",".join(cols) + ')'
-    vals_clause = '(' + ",".join(vals) + ')'
+                vals.append("%s" % id_no)
+
+        for col, val in template.items():
+            if col == id_name:
+                continue
+            if isinstance(val, str):
+                vals.append("'%s'" % val)
+            else:
+                vals.append("%s" % val)
+            cols.append(col)
+    cols_clause = '(' + ", ".join(cols) + ')'
+    vals_clause = '(' + ", ".join(vals) + ')'
     return cols_clause, vals_clause, cols, vals
 
+
 # create a new row
-def insert_by_template(db_schema, table_name, id_name, template):
-    cols_clause, vals_clause, cols, vals = get_insertion_args(db_schema, table_name, id_name, template)
+def insert_user_by_template(db_schema, table_name, id_name, template):
+    col_val_dict = template
+    if id_name not in col_val_dict:
+        return None
+
+    id_no = col_val_dict[id_name]
+    cols_clause, vals_clause, cols, vals = get_insertion_args(col_val_dict,
+                                                              id_name,
+                                                              id_no)
     if cols_clause is not None:
         conn = _get_db_connection()
         cur = conn.cursor()
 
         sql = "INSERT INTO " + db_schema + "." + table_name + \
-              " " + cols_clause + " VALUES " + vals_clause
+              " " + cols_clause + " VALUES " + vals_clause + ";"
         print(sql)
-        res = cur.execute(sql)
-        res = cur.fetchall()
+        cur.execute(sql)
+        cur.fetchall()
+        conn.commit()
+        conn.close()
+    return dict(zip(cols, vals))
+
+
+def insert_group_by_template(db_schema, table_name, id_name, template):
+    next_group_id = get_next_id(db_schema, table_name, id_name)
+    col_val_dict = template
+    cols_clause, vals_clause, cols, vals = get_insertion_args(col_val_dict,
+                                                              id_name,
+                                                              next_group_id)
+    if cols_clause is not None:
+        conn = _get_db_connection()
+        cur = conn.cursor()
+
+        sql = "INSERT INTO " + db_schema + "." + table_name + \
+              " " + cols_clause + " VALUES " + vals_clause + ";"
+        print(sql)
+        cur.execute(sql)
+        cur.fetchall()
         conn.commit()
         conn.close()
     return dict(zip(cols, vals))
 
 
 def delete_by_id(db_schema, table_name, id_name, id_no):
-
-    sql = "delete from " + db_schema + "." + table_name + " where " + id_name + "=" + id_no
+    sql = "DELETE FROM " + db_schema + "." + table_name + \
+          " WHERE " + id_name + "="
+    if isinstance(id_no, str):
+        sql += f"\"{id_no}\""
+    else:
+        sql += str(id_no)
     print(sql)
     conn = _get_db_connection()
     cur = conn.cursor()
-    res = cur.execute(sql)
+    cur.execute(sql)
     res = cur.fetchall()
     conn.commit()
     conn.close()
@@ -123,12 +161,12 @@ def delete_by_id(db_schema, table_name, id_name, id_no):
 
 
 def get_by_id(db_schema, table_name, id_name, id_no):
-
-    sql = "select * from " + db_schema + "." + table_name + " where " + id_name + "= \"" + id_no + "\""
+    sql = "select * from " + db_schema + "." + table_name + " where " + \
+          id_name + "= \"" + id_no + "\""
     print(sql)
     conn = _get_db_connection()
     cur = conn.cursor()
-    res = cur.execute(sql)
+    cur.execute(sql)
     res = cur.fetchall()
     conn.commit()
     conn.close()
@@ -139,13 +177,48 @@ def get_by_id(db_schema, table_name, id_name, id_no):
 def get_groups(id_no):
     sql = "SELECT UsersGroups.Groups.group_id " + \
           "FROM UsersGroups.Groups " + \
-          "INNER JOIN UsersGroups.BelongsTo ON UsersGroups.Groups.group_id=UsersGroups.BelongsTo.group_id " + \
+          "INNER JOIN UsersGroups.BelongsTo ON " + \
+          "UsersGroups.Groups.group_id=UsersGroups.BelongsTo.group_id " + \
           "WHERE username = \"" + id_no + "\""
 
     print(sql)
     conn = _get_db_connection()
     cur = conn.cursor()
-    res = cur.execute(sql)
+    cur.execute(sql)
+    res = cur.fetchall()
+    conn.commit()
+    conn.close()
+
+    return res
+
+
+def add_user_to_group(db_schema, table_name, group_id, username):
+    sql = "INSERT INTO " + str(db_schema) + "." + str(table_name) + \
+          " (group_id, username) " + \
+          "VALUES (" + str(group_id) + ", \"" + str(username) + "\")"
+
+    print(sql)
+    try:
+        conn = _get_db_connection()
+        cur = conn.cursor()
+        cur.execute(sql)
+        res = cur.fetchall()
+        conn.commit()
+        conn.close()
+    except Exception:
+        return None
+    return res
+
+
+def remove_user_from_group(db_schema, table_name, group_id, username):
+    sql = "DELETE FROM " + str(db_schema) + "." + str(table_name) + " " + \
+          "WHERE group_id = " + str(group_id) + " and username = \"" + \
+          str(username) + "\")"
+
+    print(sql)
+    conn = _get_db_connection()
+    cur = conn.cursor()
+    cur.execute(sql)
     res = cur.fetchall()
     conn.commit()
     conn.close()
@@ -154,15 +227,16 @@ def get_groups(id_no):
 
 
 def get_users(id_no):
-    sql = "SELECT UsersGroups.Users.username " + \
+    sql = "SELECT UsersGroups.Users.username, UsersGroups.Users.gmail " + \
           "FROM UsersGroups.Users " + \
-          "INNER JOIN UsersGroups.BelongsTo ON UsersGroups.Users.username=UsersGroups.BelongsTo.username " + \
+          "INNER JOIN UsersGroups.BelongsTo ON " + \
+          "UsersGroups.Users.username=UsersGroups.BelongsTo.username " + \
           "WHERE group_id = " + id_no
 
     print(sql)
     conn = _get_db_connection()
     cur = conn.cursor()
-    res = cur.execute(sql)
+    cur.execute(sql)
     res = cur.fetchall()
     conn.commit()
     conn.close()
@@ -171,19 +245,21 @@ def get_users(id_no):
 
 
 def get_next_id(db_schema, table_name, id_name):
-    sql = f"select * from {db_schema}.{table_name} order by {id_name} desc limit 1"
+    sql = "SELECT * FROM " + str(db_schema) + "." + str(table_name) + \
+          " order by " + str(id_name) + \
+          " desc limit 1"
     print(sql)
     conn = _get_db_connection()
     cur = conn.cursor()
-    res = cur.execute(sql)
+    cur.execute(sql)
     res = cur.fetchone()
     conn.commit()
     conn.close()
     max_id = res[id_name]
     return max_id + 1
 
-def update_by_id(db_schema, table_name, template, id_name, id_no):
 
+def update_by_id(db_schema, table_name, template, id_name, id_no):
     conn = _get_db_connection()
     cur = conn.cursor()
     sql = f"UPDATE {db_schema}.{table_name} SET "
@@ -193,10 +269,13 @@ def update_by_id(db_schema, table_name, template, id_name, id_no):
         else:
             sql += f"{k} = {v},"
     sql = sql[:-1]
-    sql += f" WHERE {id_name} = {id_no}"
+    if isinstance(id_no, str):
+        sql += f" WHERE {id_name} = \"{id_no}\""
+    else:
+        sql += f" WHERE {id_name} = {id_no}"
 
     print(sql)
-    res = cur.execute(sql)
+    cur.execute(sql)
     res = cur.fetchall()
     conn.commit()
     conn.close()

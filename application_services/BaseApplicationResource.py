@@ -12,6 +12,6 @@ class BaseApplicationResource(ABC):
     def __init__(self):
         pass
 
-    @abstractmethod
-    def get_links(self, resource_data):
-        pass
+    # @abstractmethod
+    # def get_links(self, resource_data):
+    #     pass
