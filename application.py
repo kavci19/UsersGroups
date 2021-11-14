@@ -129,7 +129,8 @@ def get_by_group_id(group_id):
         return rsp
 
 
-@application.route('/groups/<group_id>/users', methods=["GET", "POST", "DELETE"])
+@application.route('/groups/<group_id>/users',
+                   methods=["GET", "POST", "DELETE"])
 def get_users_in_group(group_id):
     if request.method == "GET":
         res = GroupResource.get_users(group_id)
