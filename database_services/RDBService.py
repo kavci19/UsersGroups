@@ -38,9 +38,9 @@ def get_by_prefix(db_schema, table_name, column_name, value_prefix):
         conn.close()
 
         return True, res
-    except pymysql.Error:
-        return False, None
-    except (Exception,):
+
+    except Exception as e:
+        print(e)
         return False, None
 
 
@@ -78,9 +78,8 @@ def find_by_template(db_schema, table_name, template):
 
         return True, res
 
-    except pymysql.Error:
-        return False, None
-    except (Exception,):
+    except Exception as e:
+        print(e)
         return False, None
 
 
@@ -119,6 +118,7 @@ def insert_user_by_template(db_schema, table_name, id_name, template):
             return None
 
         id_no = col_val_dict[id_name]
+
         cols_clause, vals_clause, cols, vals = get_insertion_args(col_val_dict,
                                                                   id_name,
                                                                   id_no)
@@ -136,9 +136,8 @@ def insert_user_by_template(db_schema, table_name, id_name, template):
 
         return True, dict(zip(cols, vals))
 
-    except pymysql.Error:
-        return False, None
-    except (Exception,):
+    except Exception as e:
+        print(e)
         return False, None
 
 
@@ -162,9 +161,9 @@ def insert_group_by_template(db_schema, table_name, id_name, template):
             conn.close()
         return True, dict(zip(cols, vals))
 
-    except pymysql.Error:
-        return False, None
-    except (Exception,):
+
+    except Exception as e:
+        print(e)
         return False, None
 
 
@@ -186,9 +185,8 @@ def delete_by_id(db_schema, table_name, id_name, id_no):
 
         return True, res
 
-    except pymysql.Error:
-        return False, None
-    except (Exception,):
+    except Exception as e:
+        print(e)
         return False, None
 
 
@@ -233,10 +231,8 @@ def get_by_id(db_schema, table_name, id_name, id_no):
 
         return True, res
 
-    except pymysql.Error:
-        return False, None
-
-    except (Exception,):
+    except Exception as e:
+        print(e)
         return False, None
 
 
@@ -271,9 +267,8 @@ def get_groups(username):
 
         return True, res
 
-    except pymysql.Error:
-        return False, None
-    except (Exception,):
+    except Exception as e:
+        print(e)
         return False, None
 
 
@@ -313,10 +308,8 @@ def add_user_to_group(db_schema, table_name, group_id, username):
 
         return True, res
 
-    except pymysql.Error as e:
+    except Exception as e:
         print(e)
-        return False, None
-    except (Exception,):
         return False, None
 
 
@@ -356,9 +349,8 @@ def remove_user_from_group(db_schema, table_name, group_id, username):
 
         return True, res
 
-    except pymysql.Error:
-        return False, None
-    except (Exception,):
+    except Exception as e:
+        print(e)
         return False, None
 
 
@@ -392,9 +384,9 @@ def get_users_in_group(group_id):
         conn.close()
 
         return True, res
-    except pymysql.Error:
-        return False, None
-    except (Exception,):
+
+    except Exception as e:
+        print(e)
         return False, None
 
 
@@ -437,10 +429,9 @@ def get_next_id(db_schema, table_name, id_name):
         # Return the next id (counter)
         return True, max_id + 1
 
-    except pymysql.Error:
-        return False, None
 
-    except (Exception,):
+    except Exception as e:
+        print(e)
         return False, None
 
 
@@ -463,6 +454,8 @@ def update_by_id(db_schema, table_name, template, id_name, id_no):
         # Create SQL statement
         sql = f"UPDATE {db_schema}.{table_name} SET "
         for k, v in template.items():
+            if len(k) == 0:
+                continue
             if isinstance(v, str):
                 sql += f"{k} = \"{v}\","
             else:
@@ -482,7 +475,8 @@ def update_by_id(db_schema, table_name, template, id_name, id_no):
         # Execute query and fetch results
         cur.execute(sql)
         res = cur.fetchall()
-
+        cur.execute(f'select * from {db_schema}.{table_name} where {id_name} = \'{id_no}\'')
+        res = cur.fetchall()
         # Commit and close connection
         conn.commit()
         conn.close()
@@ -490,7 +484,7 @@ def update_by_id(db_schema, table_name, template, id_name, id_no):
         # Return the results
         return True, res
 
-    except pymysql.Error:
-        return False, None
-    except (Exception,):
+
+    except Exception as e:
+        print(e)
         return False, None

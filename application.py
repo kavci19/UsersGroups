@@ -35,7 +35,7 @@ def get_users():
         # GET Request - Get all users in the Users database
 
         # Call get_by_template with empty template
-        res = UserResource.get_by_template({})
+        res = UserResource.get_by_template({})[1]
 
         # Create response
         rsp = Response(json.dumps(res, default=str),
@@ -47,10 +47,9 @@ def get_users():
         # POST Request - Add a user to the Users database
 
         # Get the column-value dictionary
-        data_dict = request.get_json()
-
+        data_dict = request.form
         # Call insert_by_template
-        res = UserResource.insert_by_template(data_dict)
+        res = UserResource.insert_by_template(data_dict)[1]
 
         # Create response
         rsp = Response(json.dumps(res, default=str),
@@ -72,7 +71,7 @@ def get_by_user_id(user_id):
         # from the Users database
 
         # Call get_by_id to get the user's information
-        res = UserResource.get_by_id(user_id)
+        res = UserResource.get_by_id(user_id)[1]
 
         # Create response
         rsp = Response(json.dumps(res, default=str),
@@ -84,10 +83,10 @@ def get_by_user_id(user_id):
         # PUT Request - Update a user's information
 
         # Get column-value pairs for the updated information
-        data_dict = request.get_json()
+        data_dict = request.form
 
         # Call update_by_id to update user's information
-        res = UserResource.update_by_id(data_dict, user_id)
+        res = UserResource.update_by_id(data_dict, user_id)[1]
 
         # Create response
         rsp = Response(json.dumps(res, default=str),
@@ -99,7 +98,7 @@ def get_by_user_id(user_id):
         # DELETE Request - delete a user from the database
 
         # Call delete_by_id to delete user
-        res = UserResource.delete_by_id(user_id)
+        res = UserResource.delete_by_id(user_id)[1]
 
         # Create response
         rsp = Response(json.dumps(res, default=str),
@@ -121,7 +120,7 @@ def get_groups_of_user(user_id):
         # belongs to
 
         # Call get_groups to get the groups the user is in
-        res = UserResource.get_groups(user_id)
+        res = UserResource.get_groups(user_id)[1]
 
         # Create response
         rsp = Response(json.dumps(res, default=str),
@@ -133,10 +132,10 @@ def get_groups_of_user(user_id):
         # POST Request - add a user to a group
 
         # Get the group_id to add the user to
-        data_dict = request.get_json()
+        data_dict = request.form
 
         # Call add_user_to_group() to add the user to the group
-        res = UserResource.add_user_to_group(data_dict, user_id)
+        res = UserResource.add_user_to_group(data_dict, user_id)[1]
 
         # Create response
         rsp = Response(json.dumps(res, default=str),
@@ -165,7 +164,7 @@ def get_groups():
 
         # Call get_by_template with empty dictionary
         # to get list of all groups
-        res = GroupResource.get_by_template({})
+        res = GroupResource.get_by_template({})[1]
 
         # Create response
         rsp = Response(json.dumps(res, default=str),
@@ -178,11 +177,11 @@ def get_groups():
 
         # Get the group_id and group_name from the request
         # body
-        data_dict = request.get_json()
+        data_dict = request.form
 
         # Call insert_by_template to insert new group into
         # Groups database
-        res = GroupResource.insert_by_template(data_dict)
+        res = GroupResource.insert_by_template(data_dict)[1]
 
         # Create response
         rsp = Response(json.dumps(res, default=str),
@@ -206,7 +205,7 @@ def get_by_group_id(group_id):
 
         # Call get_by_id to get information about
         # the group with specified group_id
-        res = GroupResource.get_by_id(group_id)
+        res = GroupResource.get_by_id(group_id)[1]
 
         # Create response
         rsp = Response(json.dumps(res, default=str),
@@ -218,10 +217,10 @@ def get_by_group_id(group_id):
         # PUT Request - update a group's information
 
         # Get column-value pairs for new information
-        data_dict = request.get_json()
+        data_dict = request.form
 
         # Call update_by_id to update the group's information
-        res = GroupResource.update_by_id(data_dict, group_id)
+        res = GroupResource.update_by_id(data_dict, group_id)[1]
 
         # Create response
         rsp = Response(json.dumps(res, default=str),
@@ -234,7 +233,7 @@ def get_by_group_id(group_id):
         # by the group_id
 
         # Call delete_by_id to delete the group
-        res = GroupResource.delete_by_id(group_id)
+        res = GroupResource.delete_by_id(group_id)[1]
 
         # Create response
         rsp = Response(json.dumps(res, default=str),
@@ -264,7 +263,7 @@ def get_users_in_group(group_id):
 
         # Call get_users to get all the users belonging to
         # the specified group
-        res = GroupResource.get_users(group_id)
+        res = GroupResource.get_users(group_id)[1]
 
         # Create response
         rsp = Response(json.dumps(res, default=str),
@@ -276,10 +275,10 @@ def get_users_in_group(group_id):
         # POST Request - Add a user to a group
 
         # Get username from request body
-        data_dict = request.get_json()
+        data_dict = request.form
 
         # Call add_user_to_group to add the user to the group
-        res = GroupResource.add_user_to_group(data_dict, group_id)
+        res = GroupResource.add_user_to_group(data_dict, group_id)[1]
 
         # Create response
         rsp = Response(json.dumps(res, default=str),
@@ -291,10 +290,10 @@ def get_users_in_group(group_id):
         # DELETE Request - delete a user from a group
 
         # Get username of user to delete
-        data_dict = request.get_json()
+        data_dict = request.form
 
         # Call remove_user_from_group to delete the user from the group
-        res = GroupResource.remove_user_from_group(data_dict, group_id)
+        res = GroupResource.remove_user_from_group(data_dict, group_id)[1]
 
         # Create response
         rsp = Response(json.dumps(res, default=str),
