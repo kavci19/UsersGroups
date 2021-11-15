@@ -1,5 +1,6 @@
 from abc import ABC
 
+
 class BaseApplicationException:
 
     def __init__(self):
