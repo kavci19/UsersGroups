@@ -5,6 +5,8 @@ from group_service import GroupResource
 class TestGroupResource(unittest.TestCase):
 
     def test_valid_get_by_empty_template(self):
+        # This method tests the get_by_template() function
+        # to get all groups
         expected = [{'group_id': 1, 'group_name': 'Brian'},
                     {'group_id': 2, 'group_name': 'Tim'},
                     {'group_id': 3, 'group_name': 'Kaan'},
@@ -17,59 +19,140 @@ class TestGroupResource(unittest.TestCase):
         return self.assertEqual(success, True) and self.assertEqual(res, expected)
 
     def test_valid_get_by_non_empty_template(self):
+        # This method tests the get_by_template()
+        # passing in a valid group_name
         expected = [{'group_id': 1, 'group_name': 'Brian'}]
         template = {'group_name': "Brian"}
         success, res = GroupResource.get_by_template(template)
         return self.assertEqual(success, True) and self.assertEqual(res, expected)
 
     def test_valid_get_by_non_empty_template(self):
+        # This method tests the get_by_template() function
+        # passing in a valid group_id
         expected = [{'group_id': 1, 'group_name': 'Brian'}]
         template = {'group_id': 1}
         success, res = GroupResource.get_by_template(template)
-        print("res = ", res)
         return self.assertEqual(success, True) and self.assertEqual(res, expected)
 
     def test_valid_insert_by_template(self):
-        template = {'group_id': 7,
-                    'group_name': "Group7"}
+        # This method tests the insert_by_template() function
+        # passing in a valid group_name
+
+        # Insert the group
+        template = {'group_name': "Group7"}
         success1, _ = GroupResource.insert_by_template(template)
 
+        # Get the group info by get_by_template()
         expected = [{'group_id': 7, 'group_name': 'Group7'}]
-        template = {'group_id': 7}
+        template = {'group_name': 'Group7'}
         success2, res = GroupResource.get_by_template(template)
 
         correct = self.assertEqual(success1, True) and \
                   self.assertEqual(success2, True) and \
                   self.assertEqual(res, expected)
+
         return correct
 
-    # def test_delete_by_id(self):
-    #     group_id = 1
-    #     GroupResource.delete_by_id(group_id)
-    #     return self.assertEqual(True, True)
-    #
-    # def test_get_users(self):
-    #     group_id = 1
-    #     GroupResource.get_users(group_id)
-    #     return self.assertEqual(True, True)
-    #
-    # def test_add_user_to_group(self):
-    #     template = {}
-    #     group_id = 1
-    #     GroupResource.add_user_to_group(template, group_id)
-    #     return self.assertEqual(True, True)
-    #
-    # def test_remove_user_from_group(self):
-    #     template = {}
-    #     group_id = 1
-    #     GroupResource.remove_user_from_group(template, group_id)
-    #     return self.assertEqual(True, True)
-    #
-    # def test_get_links(self):
-    #     usernames_and_emails = [{}, {}]
-    #     group_id = 1
-    #     GroupResource.get_links(usernames_and_emails, group_id)
-    #     return self.assertEqual(True, True)
+    def test_invalid_insert_by_template(self):
+        # This method tests the insert_by_template() function
+        # passing in an invalid column name of "name", which
+        # is not in the table
+        template = {'name': "Group8"}
+        success, res = GroupResource.insert_by_template(template)
+
+        return self.assertEqual(success, False)
+
+    def test_valid_delete_by_id(self):
+        # This method tests the delete_by_id() function
+        # passing in a valid group_id to delete
+
+        # Delete group
+        group_id = 7
+        success1, res = GroupResource.delete_by_id(group_id)
+
+        # Check if group is deleted by trying to find it in the table
+        expected = []
+        template = {'group_id': 7}
+        success2, res = GroupResource.get_by_template(template)
+        return self.assertEqual(success1, True) and self.assertEqual(res, expected)
+
+    def test_valid_add_user_to_group(self):
+        # This method tests the add_user_to_group() function,
+        # passing in a valid username
+
+        template = {'username': "by2289"}
+        group_id = 1
+
+        # For testing, first remove the user if it is already in there
+        GroupResource.remove_user_from_group(template, group_id)
+
+        # Add the user to the group
+        success1, res = GroupResource.add_user_to_group(template, group_id)
+        expected = [{'username': 'by2289',
+                     'gmail': 'by2289@columbia.edu',
+                     'links': [{'rel': 'self', 'href': '/groups/1'},
+                               {'ref': 'username', 'href': '/users/by2289'},
+                               {'ref': 'email', 'href': 'by2289@columbia.edu'}]}]
+
+        # Check if user is added to the group by getting all users in the group
+        success2, res = GroupResource.get_users(group_id)
+        success = self.assertEqual(success1, True) and \
+                  self.assertEqual(success2, True) and \
+                  self.assertEqual(res, expected)
+
+        return success
+
+    def test_invalid_add_user_to_group(self):
+        # This method tests the add_user_to_group() function,
+        # trying to add the user to the same group twice, which is invalid
+        template = {'username': "by2289"}
+        group_id = 2
+
+        # Add once
+        GroupResource.add_user_to_group(template, group_id)
+
+        # Add again
+        success, res = GroupResource.add_user_to_group(template, group_id)
+        return self.assertEqual(success, False)
+
+    def test_get_users(self):
+        # This method tests the get_user() function,
+        #
+        group_id = 1
+        success, res = GroupResource.get_users(group_id)
+        expected = [{'username': 'by2289',
+                     'gmail': 'by2289@columbia.edu',
+                     'links': [{'rel': 'self', 'href': '/groups/1'},
+                               {'ref': 'username', 'href': '/users/by2289'},
+                               {'ref': 'email', 'href': 'by2289@columbia.edu'}]}]
+
+        return self.assertEqual(success, True) and self.assertEqual(res, expected)
+
+    def test_invalid_remove_user_from_group(self):
+        template = {'name': "by2289"}
+        group_id = 1
+        success, res = GroupResource.remove_user_from_group(template, group_id)
+        return self.assertEqual(success, False)
+
+    def test_valid_remove_user_from_group(self):
+        print("Testing remove_user_from_group")
+        template = {'username': "by2289"}
+        group_id = 1
+        success, res = GroupResource.remove_user_from_group(template, group_id)
+        expected = []
+        print("res = ", res)
+        return self.assertEqual(success, True) and self.assertEqual(res, expected)
+
+    def test_get_links(self):
+        usernames_and_emails = [{'username': 'by2289', 'gmail': 'by2289@columbia.edu'}]
+        group_id = 1
+        success, res = GroupResource.get_links(usernames_and_emails, group_id)
+        expected = [{'username': 'by2289',
+                     'gmail': 'by2289@columbia.edu',
+                     'links': [{'rel': 'self', 'href': '/groups/1'},
+                               {'ref': 'username', 'href': '/users/by2289'},
+                               {'ref': 'email', 'href': 'by2289@columbia.edu'}]}]
+        return self.assertEqual(success, True) and self.assertEqual(res, expected)
 
 
 if __name__ == '__main__':
