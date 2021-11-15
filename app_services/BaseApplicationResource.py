@@ -1,14 +1,13 @@
 from abc import ABC
-# from abc import abstractmethod
 
 
-class BaseDataException:
+class BaseApplicationException:
 
     def __init__(self):
         pass
 
 
-class BaseDataResource(ABC):
+class BaseApplicationResource(ABC):
 
     def __init__(self):
         pass
