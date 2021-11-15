@@ -62,9 +62,9 @@ class GroupResource(BaseApplicationResource):
 
         group_id = int(group_id)
 
-        res = DBService.get_by_id("UsersGroups", "Groups",
-                                  "group_id", group_id)
-        return res
+        success, res = DBService.get_by_id("UsersGroups", "Groups",
+                                           "group_id", group_id)
+        return success, res
 
     @classmethod
     def update_by_id(cls, template, group_id):
@@ -76,9 +76,9 @@ class GroupResource(BaseApplicationResource):
         :param group_id: the group_id of the group to update
         """
 
-        res = DBService.update_by_id('UsersGroups', 'Groups',
-                                     template, 'group_id', group_id)
-        return res
+        success, res = DBService.update_by_id('UsersGroups', 'Groups',
+                                              template, 'group_id', group_id)
+        return success, res
 
     @classmethod
     def get_users(cls, group_id):
@@ -181,5 +181,6 @@ class GroupResource(BaseApplicationResource):
 
             # Return updated dictionary list
             return True, usernames_and_emails
-        except Exception:
+        except Exception as e:
+            print(e)
             return False, None

@@ -111,6 +111,8 @@ class TestGroupResource(unittest.TestCase):
         template = {'username': "by2289"}
         group_id = 2
 
+        GroupResource.remove_user_from_group(template, group_id)
+
         # Add once
         GroupResource.add_user_to_group(template, group_id)
 
