@@ -16,21 +16,22 @@ class GroupResource(BaseApplicationResource):
                          to match
         :return: all rows in the Groups table that match the template
         """
-        res = DBService.find_by_template("UsersGroups", "Groups", template)
-        return res
+        success, res = DBService.find_by_template("UsersGroups",
+                                                  "Groups", template)
+        return success, res
 
     @classmethod
     def insert_by_template(cls, template):
         """
-        This method gets all rows from the Groups table that
+        This method inserts a group into the Groups table that
         match the template
         :param template: dictionary containing the column-value pairs
                          for the record to be inserted
         """
-        res = DBService.insert_group_by_template("UsersGroups",
-                                                 "Groups",
-                                                 "group_id", template)
-        return res
+        success, res = DBService.insert_group_by_template("UsersGroups",
+                                                          "Groups",
+                                                          "group_id", template)
+        return success, res
 
     @classmethod
     def delete_by_id(cls, group_id):
