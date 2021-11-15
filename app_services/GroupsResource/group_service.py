@@ -16,20 +16,22 @@ class GroupResource(BaseApplicationResource):
                          to match
         :return: all rows in the Groups table that match the template
         """
-        success, res = DBService.find_by_template("UsersGroups", "Groups", template)
+
+        success, res = DBService.find_by_template("UsersGroups",
+                                                  "Groups", template)
         return success, res
 
     @classmethod
     def insert_by_template(cls, template):
         """
-        This method gets all rows from the Groups table that
+        This method inserts a group into the Groups table that
         match the template
         :param template: dictionary containing the column-value pairs
                          for the record to be inserted
         """
         success, res = DBService.insert_group_by_template("UsersGroups",
-                                                 "Groups",
-                                                 "group_id", template)
+                                                          "Groups",
+                                                          "group_id", template)
         return success, res
 
     @classmethod
@@ -47,7 +49,7 @@ class GroupResource(BaseApplicationResource):
 
         # Next, delete the group in the Groups table
         success, res = DBService.delete_by_id("UsersGroups", "Groups",
-                                     "group_id", group_id)
+                                              "group_id", group_id)
         return success, res
 
     @classmethod
@@ -92,7 +94,7 @@ class GroupResource(BaseApplicationResource):
 
         # Call get_links to get links for each user in
         # the group
-        res = cls.get_links(res, group_id)
+        success, res = cls.get_links(res, group_id)
 
         return success, res
 
@@ -110,7 +112,7 @@ class GroupResource(BaseApplicationResource):
 
         # Call add_user_to_group() to add the user to the group
         success, res = DBService.add_user_to_group('UsersGroups', 'BelongsTo',
-                                          group_id, username)
+                                                   group_id, username)
         return success, res
 
     @classmethod
@@ -123,11 +125,14 @@ class GroupResource(BaseApplicationResource):
         """
 
         # Get the username
+        if "username" not in template:
+            return False, None
+
         username = template["username"]
 
         # Call remove_user_from_group to remove the user from the group
         success, res = DBService.remove_user_from_group("UsersGroups", "BelongsTo",
-                                               group_id, username)
+                                                        group_id, username)
         return success, res
 
     @classmethod
@@ -144,33 +149,36 @@ class GroupResource(BaseApplicationResource):
         """
 
         # Go through each user's dictionary
-        for r in usernames_and_emails:
+        try:
+            for r in usernames_and_emails:
 
-            # Create a list of links
-            links = []
+                # Create a list of links
+                links = []
 
-            # Get the username of the user
-            username = r['username']
+                # Get the username of the user
+                username = r['username']
 
-            # Get the user's gmail
-            email = r['gmail']
+                # Get the user's gmail
+                email = r['gmail']
 
-            # Create href to the group
-            self_link = {'rel': 'self', 'href': f'/groups/{group_id}'}
+                # Create href to the group
+                self_link = {'rel': 'self', 'href': f'/groups/{group_id}'}
 
-            # Create href to the user's own "profile"
-            user_link = {'ref': 'username', 'href': f'/users/{username}'}
+                # Create href to the user's own "profile"
+                user_link = {'ref': 'username', 'href': f'/users/{username}'}
 
-            # Create href to user's email
-            email_link = {'ref': 'email', 'href': f'{email}'}
+                # Create href to user's email
+                email_link = {'ref': 'email', 'href': f'{email}'}
 
-            # Add links to list of links
-            links.append(self_link)
-            links.append(user_link)
-            links.append(email_link)
+                # Add links to list of links
+                links.append(self_link)
+                links.append(user_link)
+                links.append(email_link)
 
-            # Insert list of links into the user's dictionary
-            r['links'] = links
+                # Insert list of links into the user's dictionary
+                r['links'] = links
 
-        # Return updated dictionary list
-        return usernames_and_emails
+            # Return updated dictionary list
+            return True, usernames_and_emails
+        except Exception:
+            return False, None
