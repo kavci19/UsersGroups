@@ -149,7 +149,8 @@ class TestGroupResource(unittest.TestCase):
         return self.assertEqual(success, True) and self.assertEqual(res, expected)
 
     def test_get_links(self):
-        # This method tests the
+        # This method tests the get_links() function, passing in
+        # a valid usernames_and_emails dictionary for a user
         usernames_and_emails = [{'username': 'by2289', 'gmail': 'by2289@columbia.edu'}]
         group_id = 1
         success, res = GroupResource.get_links(usernames_and_emails, group_id)
