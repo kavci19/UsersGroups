@@ -9,6 +9,7 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
+
 # establish a connection with the MySQL database on AWS
 def _get_db_connection():
     db_connect_info = context.get_db_info()
@@ -21,6 +22,7 @@ def _get_db_connection():
         **db_info
     )
     return db_connection
+
 
 # retrieve all rows from a given schema/table matching the given prefix
 def get_by_prefix(db_schema, table_name, column_name, value_prefix):
@@ -45,7 +47,8 @@ def get_by_prefix(db_schema, table_name, column_name, value_prefix):
 
 
 # returns no where clause if template empty (as is default from application.py)
-# parse the key/value pairs in a data dictionary to create a where clause to query the database
+# parse the key/value pairs in a data dictionary to
+# create a where clause to query the database
 def _get_where_clause_args(template):
     terms = []
     args = []
@@ -71,9 +74,9 @@ def _get_where_clause_args(template):
 
     return clause, args
 
+
 # retrieve all rows from a given schema/table matching the given prefix
 def find_by_template(db_schema, table_name, template):
-
     try:
         wc, args = _get_where_clause_args(template)
 
@@ -93,6 +96,7 @@ def find_by_template(db_schema, table_name, template):
     except Exception as e:
         print(e)
         return False, None
+
 
 # create a sql insert query based on the provided column names and values
 def get_insertion_args(template, id_name=None, id_no=None):
@@ -153,7 +157,9 @@ def insert_user_by_template(db_schema, table_name, id_name, template):
         print(e)
         return False, None
 
-# create a new group in the database with values corresponding to the input template
+
+# create a new group in the database with values corresponding
+# to the input template
 def insert_group_by_template(db_schema, table_name, id_name, template):
     """
     This method gets all rows of a table that have the matching
@@ -171,9 +177,10 @@ def insert_group_by_template(db_schema, table_name, id_name, template):
         success, next_group_id = get_next_id(db_schema, table_name, id_name)
         if success:
             col_val_dict = template
-            cols_clause, vals_clause, cols, vals = get_insertion_args(col_val_dict,
-                                                                      id_name,
-                                                                      next_group_id)
+            cols_clause, vals_clause, cols, vals = get_insertion_args(
+                col_val_dict,
+                id_name,
+                next_group_id)
 
             if cols_clause is not None:
                 conn = _get_db_connection()
@@ -193,6 +200,7 @@ def insert_group_by_template(db_schema, table_name, id_name, template):
     except Exception as e:
         print(e)
         return False, None
+
 
 # delete a row from a database table matching the given primary key/id
 def delete_by_id(db_schema, table_name, id_name, id_no):
@@ -502,7 +510,8 @@ def update_by_id(db_schema, table_name, template, id_name, id_no):
         cur.execute(sql)
         cur.fetchall()
 
-        cur.execute(f'select * from {db_schema}.{table_name} where {id_name} = \'{id_no}\'')
+        cur.execute(f'select * from {db_schema}.{table_name} '
+                    f'where {id_name} = \'{id_no}\'')
         res = cur.fetchall()
         # Commit and close connection
         conn.commit()

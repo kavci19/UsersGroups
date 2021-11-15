@@ -59,7 +59,8 @@ class Test_TestUserService(unittest.TestCase):
         success, res = UserResource.update_by_id(new_template, username)
         self.assertTrue(success)
 
-        # check that all the user's information is the same, except for a changed phone number
+        # check that all the user's information is the same,
+        # except for a changed phone number
         success, res = UserResource.get_by_id(username)
         new_user_data = old_user_data
         new_user_data['phone_number'] = new_template['phone_number']
@@ -84,8 +85,6 @@ class Test_TestUserService(unittest.TestCase):
                 foundGroup = True
                 break
         self.assertTrue(foundGroup)
-
-
 
 
 if __name__ == '__main__':

@@ -54,7 +54,8 @@ class GroupResource(BaseApplicationResource):
     @classmethod
     def get_by_id(cls, group_id):
         """
-        This method gets the information of the group with the specified group_id
+        This method gets the information of the group with the
+        specified group_id
         :param group_id: the group_id of the group to get information about
         :return: the row in the Groups table that matches the group_id
         """
@@ -130,7 +131,8 @@ class GroupResource(BaseApplicationResource):
         username = template["username"]
 
         # Call remove_user_from_group to remove the user from the group
-        success, res = DBService.remove_user_from_group("UsersGroups", "BelongsTo",
+        success, res = DBService.remove_user_from_group("UsersGroups",
+                                                        "BelongsTo",
                                                         group_id, username)
         return success, res
 

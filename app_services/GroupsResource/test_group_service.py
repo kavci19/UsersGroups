@@ -16,15 +16,18 @@ class TestGroupResource(unittest.TestCase):
 
         template = {}
         success, res = GroupResource.get_by_template(template)
-        return self.assertEqual(success, True) and self.assertEqual(res, expected)
+        return self.assertEqual(success, True) \
+               and self.assertEqual(res, expected)
 
     def test_valid_get_by_non_empty_template(self):
         # This method tests the get_by_template()
         # passing in a valid group_name
         expected = [{'group_id': 1, 'group_name': 'Brian'}]
         template = {'group_name': "Brian"}
-        success, res = GroupResource.get_by_template(template)
-        return self.assertEqual(success, True) and self.assertEqual(res, expected)
+        success, res = GroupResource.get_by_template(
+            template)
+        return self.assertEqual(success, True) \
+               and self.assertEqual(res, expected)
 
     def test_valid_get_by_non_empty_template(self):
         # This method tests the get_by_template() function
