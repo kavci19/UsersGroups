@@ -1,9 +1,15 @@
 import unittest
-import user_service
+from user_service import UserResource
 
 
-class Test_Test_User_Service(unittest.TestCase):
-    pass
+class Test_TestUserService(unittest.TestCase):
+
+    def test(self):
+        res = UserResource.get_by_template({})
+        print(res)
+        return self.assertEquals(True, True)
+
+
 
 
 if __name__ == '__main__':

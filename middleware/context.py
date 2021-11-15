@@ -6,8 +6,6 @@ import pymysql
 
 def get_db_info():
     """
-    This is crappy code.
-
     :return: A dictionary with connect info for MySQL
     """
     db_host = os.environ.get("DBHOST", None)
