@@ -503,7 +503,6 @@ def update_by_id(db_schema, table_name, template, id_name, id_no):
 
         cur.execute(f'select * from {db_schema}.{table_name} where {id_name} = \'{id_no}\'')
         res = cur.fetchall()
-
         # Commit and close connection
         conn.commit()
         conn.close()
