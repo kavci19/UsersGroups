@@ -117,7 +117,7 @@ class TestGroupResource(unittest.TestCase):
 
     def test_get_users(self):
         # This method tests the get_user() function,
-        #
+        # passing in a valid group_id
         group_id = 1
         success, res = GroupResource.get_users(group_id)
         expected = [{'username': 'by2289',
@@ -129,13 +129,18 @@ class TestGroupResource(unittest.TestCase):
         return self.assertEqual(success, True) and self.assertEqual(res, expected)
 
     def test_invalid_remove_user_from_group(self):
+        # This method tests the remove_user_from_group() function
+        # passing in an invalid template because 'name' is not a valid
+        # column. It has to be 'username'
         template = {'name': "by2289"}
         group_id = 1
         success, res = GroupResource.remove_user_from_group(template, group_id)
         return self.assertEqual(success, False)
 
     def test_valid_remove_user_from_group(self):
-        print("Testing remove_user_from_group")
+        # This function tests the remove_user_from_group() function,
+        # passing in a valid template, to remove by2289 from the group with
+        # group_id = 1
         template = {'username': "by2289"}
         group_id = 1
         success, res = GroupResource.remove_user_from_group(template, group_id)
@@ -144,6 +149,7 @@ class TestGroupResource(unittest.TestCase):
         return self.assertEqual(success, True) and self.assertEqual(res, expected)
 
     def test_get_links(self):
+        # This method tests the
         usernames_and_emails = [{'username': 'by2289', 'gmail': 'by2289@columbia.edu'}]
         group_id = 1
         success, res = GroupResource.get_links(usernames_and_emails, group_id)
