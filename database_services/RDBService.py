@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-
+# establish a connection with the MySQL database on AWS
 def _get_db_connection():
     db_connect_info = context.get_db_info()
 
@@ -22,7 +22,7 @@ def _get_db_connection():
     )
     return db_connection
 
-
+# retrieve all rows from a given schema/table matching the given prefix
 def get_by_prefix(db_schema, table_name, column_name, value_prefix):
     try:
         conn = _get_db_connection()
@@ -45,6 +45,7 @@ def get_by_prefix(db_schema, table_name, column_name, value_prefix):
 
 
 # returns no where clause if template empty (as is default from application.py)
+# parse the key/value pairs in a data dictionary to create a where clause to query the database
 def _get_where_clause_args(template):
     terms = []
     args = []
@@ -70,7 +71,7 @@ def _get_where_clause_args(template):
 
     return clause, args
 
-
+# retrieve all rows from a given schema/table matching the given prefix
 def find_by_template(db_schema, table_name, template):
 
     try:
@@ -93,7 +94,7 @@ def find_by_template(db_schema, table_name, template):
         print(e)
         return False, None
 
-
+# create a sql insert query based on the provided column names and values
 def get_insertion_args(template, id_name=None, id_no=None):
     if template is None or template == {}:
         return None, None, None, None
@@ -123,7 +124,7 @@ def get_insertion_args(template, id_name=None, id_no=None):
     return cols_clause, vals_clause, cols, vals
 
 
-# create a new row
+# create a new row in the user database with values specified by the template
 def insert_user_by_template(db_schema, table_name, id_name, template):
     try:
         col_val_dict = template
@@ -152,7 +153,7 @@ def insert_user_by_template(db_schema, table_name, id_name, template):
         print(e)
         return False, None
 
-
+# create a new group in the database with values corresponding to the input template
 def insert_group_by_template(db_schema, table_name, id_name, template):
     """
     This method gets all rows of a table that have the matching
@@ -193,7 +194,7 @@ def insert_group_by_template(db_schema, table_name, id_name, template):
         print(e)
         return False, None
 
-
+# delete a row from a database table matching the given primary key/id
 def delete_by_id(db_schema, table_name, id_name, id_no):
     try:
         sql = "DELETE FROM " + db_schema + "." + table_name + \
