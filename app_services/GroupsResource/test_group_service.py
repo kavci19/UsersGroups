@@ -10,8 +10,8 @@ class TestGroupResource(unittest.TestCase):
         return self.assertEqual(True, True)
 
     def test_delete_by_id(self):
-        id_to_delete = 1
-        GroupResource.delete_by_id(id_to_delete)
+        group_id = 1
+        GroupResource.delete_by_id(group_id)
         return self.assertEqual(True, True)
 
     def test_get_users(self):

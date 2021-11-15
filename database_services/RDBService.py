@@ -374,7 +374,7 @@ def get_users_in_group(group_id):
               "FROM UsersGroups.Users " + \
               "INNER JOIN UsersGroups.BelongsTo ON " + \
               "UsersGroups.Users.username=UsersGroups.BelongsTo.username " + \
-              "WHERE group_id = " + int(group_id)
+              "WHERE group_id = " + str(int(group_id))
 
         print(sql)
 

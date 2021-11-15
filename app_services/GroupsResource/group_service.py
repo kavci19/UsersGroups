@@ -33,49 +33,49 @@ class GroupResource(BaseApplicationResource):
         return res
 
     @classmethod
-    def delete_by_id(cls, id_to_delete):
+    def delete_by_id(cls, group_id):
         """
         This method deletes the group that has the specified group_id
 
-        :param id_to_delete: the group_id of the group to delete from the
+        :param group_id: the group_id of the group to delete from the
                              Groups table
         """
 
         # First delete all users from the group, in BelongsTo table
         DBService.delete_by_id("UsersGroups", "BelongsTo",
-                               "group_id", id_to_delete)
+                               "group_id", group_id)
 
         # Next, delete the group in the Groups table
         res = DBService.delete_by_id("UsersGroups", "Groups",
-                                     "group_id", id_to_delete)
+                                     "group_id", group_id)
         return res
 
     @classmethod
-    def get_by_id(cls, id_to_get):
+    def get_by_id(cls, group_id):
         """
         This method gets the information of the group with the specified group_id
-        :param id_to_get: the group_id of the group to get information about
+        :param group_id: the group_id of the group to get information about
         :return: the row in the Groups table that matches the group_id
         """
 
-        id_to_get = int(id_to_get)
+        group_id = int(group_id)
 
         res = DBService.get_by_id("UsersGroups", "Groups",
-                                  "group_id", id_to_get)
+                                  "group_id", group_id)
         return res
 
     @classmethod
-    def update_by_id(cls, template, id_no):
+    def update_by_id(cls, template, group_id):
         """
         This method updates the group information of the group
         specified by the group_id
         :param template: dictionary containing the column-value pairs
                          of the new information
-        :param id_no: the group_id of the group to update
+        :param group_id: the group_id of the group to update
         """
 
         res = DBService.update_by_id('UsersGroups', 'Groups',
-                                     template, 'group_id', id_no)
+                                     template, 'group_id', group_id)
         return res
 
     @classmethod
@@ -135,10 +135,12 @@ class GroupResource(BaseApplicationResource):
         """
         This method inserts a list of links for each user that includes
         a link to the group, a link to the user, and the user's email
+
         :param usernames_and_emails: list of dictionaries, each dictionary
                                      containing username and email for a user
 
-        :return: the list of dictionaries, with the links added
+        :param group_id: The group id of the group that all the users belong to
+        :return: The list of dictionaries, with the links added
         """
 
         # Go through each user's dictionary
