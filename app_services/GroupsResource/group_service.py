@@ -16,8 +16,8 @@ class GroupResource(BaseApplicationResource):
                          to match
         :return: all rows in the Groups table that match the template
         """
-        res = DBService.find_by_template("UsersGroups", "Groups", template)
-        return res
+        success, res = DBService.find_by_template("UsersGroups", "Groups", template)
+        return success, res
 
     @classmethod
     def insert_by_template(cls, template):
@@ -27,10 +27,10 @@ class GroupResource(BaseApplicationResource):
         :param template: dictionary containing the column-value pairs
                          for the record to be inserted
         """
-        res = DBService.insert_group_by_template("UsersGroups",
+        success, res = DBService.insert_group_by_template("UsersGroups",
                                                  "Groups",
                                                  "group_id", template)
-        return res
+        return success, res
 
     @classmethod
     def delete_by_id(cls, group_id):
@@ -46,9 +46,9 @@ class GroupResource(BaseApplicationResource):
                                "group_id", group_id)
 
         # Next, delete the group in the Groups table
-        res = DBService.delete_by_id("UsersGroups", "Groups",
+        success, res = DBService.delete_by_id("UsersGroups", "Groups",
                                      "group_id", group_id)
-        return res
+        return success, res
 
     @classmethod
     def get_by_id(cls, group_id):
@@ -60,9 +60,9 @@ class GroupResource(BaseApplicationResource):
 
         group_id = int(group_id)
 
-        res = DBService.get_by_id("UsersGroups", "Groups",
+        success, res = DBService.get_by_id("UsersGroups", "Groups",
                                   "group_id", group_id)
-        return res
+        return success, res
 
     @classmethod
     def update_by_id(cls, template, group_id):
@@ -74,9 +74,9 @@ class GroupResource(BaseApplicationResource):
         :param group_id: the group_id of the group to update
         """
 
-        res = DBService.update_by_id('UsersGroups', 'Groups',
+        success, res = DBService.update_by_id('UsersGroups', 'Groups',
                                      template, 'group_id', group_id)
-        return res
+        return success, res
 
     @classmethod
     def get_users(cls, group_id):
@@ -88,13 +88,13 @@ class GroupResource(BaseApplicationResource):
         """
 
         # Call get_users to get all users in the group
-        res = DBService.get_users_in_group(group_id)
+        success, res = DBService.get_users_in_group(group_id)
 
         # Call get_links to get links for each user in
         # the group
         res = cls.get_links(res, group_id)
 
-        return res
+        return success, res
 
     @classmethod
     def add_user_to_group(cls, template, group_id):
@@ -109,9 +109,9 @@ class GroupResource(BaseApplicationResource):
         username = template["username"]
 
         # Call add_user_to_group() to add the user to the group
-        res = DBService.add_user_to_group('UsersGroups', 'BelongsTo',
+        success, res = DBService.add_user_to_group('UsersGroups', 'BelongsTo',
                                           group_id, username)
-        return res
+        return success, res
 
     @classmethod
     def remove_user_from_group(cls, template, group_id):
@@ -126,9 +126,9 @@ class GroupResource(BaseApplicationResource):
         username = template["username"]
 
         # Call remove_user_from_group to remove the user from the group
-        res = DBService.remove_user_from_group("UsersGroups", "BelongsTo",
+        success, res = DBService.remove_user_from_group("UsersGroups", "BelongsTo",
                                                group_id, username)
-        return res
+        return success, res
 
     @classmethod
     def get_links(cls, usernames_and_emails, group_id):

@@ -313,7 +313,8 @@ def add_user_to_group(db_schema, table_name, group_id, username):
 
         return True, res
 
-    except pymysql.Error:
+    except pymysql.Error as e:
+        print(e)
         return False, None
     except (Exception,):
         return False, None
