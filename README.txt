@@ -3,16 +3,28 @@ Include in your repository any configuration files needed to build, run and test
 Write a README.md that describes in simple terms how to build, run and test your initial service. 
 
 
+Configuration files:
+    1. requirements.txt
+            
+            pip install -r requirements.txt
 
 How to Build:
-1. Install all necessary packages
+1. Go into UsersGroups directory and install all necessary packages
+        
+        pip install -r requirements.txt
+        
 2. Go into UsersGroups directory and run application.py
 3. Once running, you can open Postman on desktop and access the operational entrypoints listed below
 
+How to 
     Ex. http://127.0.0.1:5000/users
 
 
-Necessary packages to install:
+Unit Test Files:
+    UsersGroups/app_services/GroupsResource/test_group_service.py
+    UsersGroups/app_services/UsersResource/test_user_service.py
+    
+To run unit tests:
 
 
 The following entry points are operational:
