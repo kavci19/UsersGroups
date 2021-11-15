@@ -9,45 +9,45 @@ class UserResource(BaseApplicationResource):
 
     @classmethod
     def get_by_template(cls, template):
-        res = DBService.find_by_template("UsersGroups", "Users", template)
-        return res
+        success, res = DBService.find_by_template("UsersGroups", "Users", template)
+        return success, res
 
     @classmethod
     def insert_by_template(cls, template):
-        res = DBService.insert_user_by_template("UsersGroups", "Users",
+        success, res = DBService.insert_user_by_template("UsersGroups", "Users",
                                                 "username", template)
-        return res
+        return success, res
 
     @classmethod
     def delete_by_id(cls, id_to_delete):
-        res = DBService.delete_by_id("UsersGroups", "Users",
+        success, res = DBService.delete_by_id("UsersGroups", "Users",
                                      "username", id_to_delete)
-        return res
+        return success, res
 
     @classmethod
     def get_by_id(cls, id_to_get):
-        res = DBService.get_by_id("UsersGroups", "Users",
+        success, res = DBService.get_by_id("UsersGroups", "Users",
                                   "username", id_to_get)
-        return res
+        return success, res
 
     @classmethod
     def update_by_id(cls, template, id_no):
-        res = DBService.update_by_id("UsersGroups", "Users",
+        success, res = DBService.update_by_id("UsersGroups", "Users",
                                      template, "username", id_no)
-        return res
+        return success, res
 
     @classmethod
     def add_user_to_group(cls, template, username):
         group_id = template["group_id"]
-        res = DBService.add_user_to_group("UsersGroups", "BelongsTo",
+        success, res = DBService.add_user_to_group("UsersGroups", "BelongsTo",
                                           group_id, username)
-        return res
+        return success, res
 
     @classmethod
     def get_groups(cls, user_id):
-        res = DBService.get_groups(user_id)
+        success, res = DBService.get_groups(user_id)
         res = cls.get_links(res, user_id)
-        return res
+        return success, res
 
     @classmethod
     def get_links(cls, group_ids, user_id):
