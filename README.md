@@ -5,13 +5,11 @@ Write a README.md that describes in simple terms how to build, run and test your
 
 Configuration files:
     1. requirements.txt
-            
-            pip install -r requirements.txt
+        pip install -r requirements.txt
 
 How to Build:
 1. Go into UsersGroups directory and install all necessary packages
-        
-        pip install -r requirements.txt
+    pip install -r requirements.txt
         
 2. Go into UsersGroups directory and run application.py
 3. Once running, you can open Postman on desktop and access the operational entrypoints listed below
