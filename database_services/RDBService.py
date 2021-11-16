@@ -4,9 +4,6 @@ import pymysql
 import logging
 import context as context
 
-# import json
-# from datetime import datetime
-
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
