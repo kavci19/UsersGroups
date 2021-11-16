@@ -2,7 +2,7 @@ import unittest
 from user_service import UserResource
 
 
-class Test_TestUserService(unittest.TestCase):
+class TestUserService(unittest.TestCase):
 
     # check if a user can be queried by a query string/template
     def test_get_by_template(self):
