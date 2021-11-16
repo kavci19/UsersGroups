@@ -9,15 +9,14 @@ Configuration files:
         pip install -r requirements.txt
 
 How to Build:
-1. Go into UsersGroups directory and install all necessary packages
+    1. Go into UsersGroups directory and install all necessary packages
 
-    pip install -r requirements.txt
-        
-2. Go into UsersGroups directory and run application.py
-3. Once running, you can open Postman on desktop and access the operational entrypoints listed below
+        pip install -r requirements.txt
 
-How to 
-    Ex. http://127.0.0.1:5000/users
+    2. Go into UsersGroups directory and run application.py
+    3. Once running, you can open Postman on desktop and access the operational entrypoints listed below.
+    
+        Ex. http://127.0.0.1:5000/users
 
 
 Unit Test Files:
