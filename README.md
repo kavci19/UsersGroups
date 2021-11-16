@@ -76,10 +76,10 @@ Methods: "GET", "POST"
 
 Entry point: '/groups'
 Methods: "GET", "POST"
+
+    GET: Get a list of all the groups in the Groups database
    
-   GET: Get a list of all the groups in the Groups database
-   
-   POST: Add a group to the Groups database
+    POST: Add a group to the Groups database
 
 
 
