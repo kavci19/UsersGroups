@@ -5,18 +5,18 @@ Write a README.md that describes in simple terms how to build, run and test your
 
 Configuration files:
 
-    1. requirements.txt
+1. requirements.txt
     
         pip install -r requirements.txt
 
 How to Build:
 
-    1. Go into UsersGroups directory and install all necessary packages
+1. Go into UsersGroups directory and install all necessary packages
 
         pip install -r requirements.txt
 
-    2. Go into UsersGroups directory and run application.py
-    3. Once running, you can open Postman on desktop and access the operational entrypoints listed below.
+2. Go into UsersGroups directory and run application.py
+3. Once running, you can open Postman on desktop and access the operational entrypoints listed below.
     
         Ex. http://127.0.0.1:5000/users
 
@@ -26,17 +26,20 @@ Unit Test Files:
     UsersGroups/app_services/UsersResource/test_user_service.py
     
 To run unit tests:
-  1. For test_group_service.py
+
+1. For test_group_service.py
      
      1a. Navigate to 'UsersGroups/app_services/GroupsResource/'
      1b. Then run:
-                    python -m unittest
+            
+            python -m unittest
   
-  2. For test_user_service.py
+2. For test_user_service.py
      
      2a. Navigate to 'UsersGroups/app_services/UsersResource/'
      2b. Then run:
-                    python -m unittest
+            
+            python -m unittest
   
 
 
