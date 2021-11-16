@@ -1,5 +1,8 @@
-from app_services.BaseApplicationResource import BaseApplicationResource
-import database_services.RDBService as DBService
+import sys
+sys.path.append("../")
+from BaseApplicationResource import BaseApplicationResource
+sys.path.append("../../database_services")
+import RDBService as DBService
 
 
 class GroupResource(BaseApplicationResource):
@@ -152,7 +155,6 @@ class GroupResource(BaseApplicationResource):
         # Go through each user's dictionary
         try:
             for r in usernames_and_emails:
-
                 # Create a list of links
                 links = []
 
