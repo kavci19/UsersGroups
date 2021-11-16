@@ -54,30 +54,40 @@ Methods: "GET", "POST"
 
 Entry point: '/users/<user_id>'
 Methods: "GET", "PUT", "DELETE"
-    GET: Get the user with specified username from the Users database
-    PUT: Update a user's information
-    DELETE: Delete a user from the Users database
+   
+   GET: Get the user with specified username from the Users database
+   
+   PUT: Update a user's information
+   
+   DELETE: Delete a user from the Users database
 
 
 
 Entry point: '/users/<user_id>/groups'
 Methods: "GET", "POST"
-    GET: Get list of all the groups the user belongs to
-    POST: Add a user to a group
+   
+   GET: Get list of all the groups the user belongs to
+   
+   POST: Add a user to a group
 
 
 
 Entry point: '/groups'
 Methods: "GET", "POST"
-    GET: Get a list of all the groups in the Groups database
-    POST: Add a group to the Groups database
+   
+   GET: Get a list of all the groups in the Groups database
+   
+   POST: Add a group to the Groups database
 
 
 
 Entry point: '/groups/<group_id>'
 Methods: "GET", "PUT", "DELETE"
+
     GET: Get information of the group specified by the group_id
+    
     PUT: Update a group's information
+    
     DELETE: Delete the group specified by the group_id from
             the Groups database
 
@@ -85,6 +95,9 @@ Methods: "GET", "PUT", "DELETE"
 
 Entry point: '/groups/<group_id>/users'
 Methods: "GET", "POST", "DELETE"
+    
     GET: Get list of all users that belong to the group specified by group_id
+    
     POST: Add a user to a group
+    
     DELETE: Delete a user from a group
