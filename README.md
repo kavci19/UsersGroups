@@ -8,10 +8,12 @@ Configuration files:
 1. requirements.txt
     
         pip install -r requirements.txt
+        
+   ** Install requirements.txt in virtual environment, or whatever intepreter you decide to use.
 
 How to Build:
 
-1. Go into UsersGroups directory and install all necessary packages
+1. Go into UsersGroups directory and install all necessary packages (either onto system or in virtual environment)
 
         pip install -r requirements.txt
 
