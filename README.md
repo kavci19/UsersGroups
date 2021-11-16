@@ -4,11 +4,13 @@ Write a README.md that describes in simple terms how to build, run and test your
 
 
 Configuration files:
+
     1. requirements.txt
     
         pip install -r requirements.txt
 
 How to Build:
+
     1. Go into UsersGroups directory and install all necessary packages
 
         pip install -r requirements.txt
