@@ -46,7 +46,7 @@ To run unit tests:
 The following entry points are operational:
 
 Entry point: '/users'
-Methods: "GET", "POST"
+    Methods: "GET", "POST"
     
     GET: Get all users in the Users database
     
@@ -55,7 +55,7 @@ Methods: "GET", "POST"
 
 
 Entry point: '/users/<user_id>'
-Methods: "GET", "PUT", "DELETE"
+    Methods: "GET", "PUT", "DELETE"
    
     GET: Get the user with specified username from the Users database
    
@@ -66,7 +66,7 @@ Methods: "GET", "PUT", "DELETE"
 
 
 Entry point: '/users/<user_id>/groups'
-Methods: "GET", "POST"
+    Methods: "GET", "POST"
 
     GET: Get list of all the groups the user belongs to
    
@@ -75,7 +75,7 @@ Methods: "GET", "POST"
 
 
 Entry point: '/groups'
-Methods: "GET", "POST"
+    Methods: "GET", "POST"
 
     GET: Get a list of all the groups in the Groups database
    
@@ -84,7 +84,7 @@ Methods: "GET", "POST"
 
 
 Entry point: '/groups/<group_id>'
-Methods: "GET", "PUT", "DELETE"
+    Methods: "GET", "PUT", "DELETE"
 
     GET: Get information of the group specified by the group_id
     
@@ -96,7 +96,7 @@ Methods: "GET", "PUT", "DELETE"
 
 
 Entry point: '/groups/<group_id>/users'
-Methods: "GET", "POST", "DELETE"
+    Methods: "GET", "POST", "DELETE"
     
     GET: Get list of all users that belong to the group specified by group_id
     
