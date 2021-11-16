@@ -47,7 +47,9 @@ The following entry points are operational:
 
 Entry point: '/users'
 Methods: "GET", "POST"
+    
     GET: Get all users in the Users database
+    
     POST: Add a user to the Users database
 
 
