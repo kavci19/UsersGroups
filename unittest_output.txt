@@ -1,0 +1,112 @@
+C:\Users\kaany\PycharmProjects\flaskProject\UsersGroups\app_services\UsersResource> python -m unittest
+INSERT INTO UsersGroups.BelongsTo (group_id, username) VALUES (4, "koa2107")
+INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+SELECT UsersGroups.Groups.group_id FROM UsersGroups.Groups INNER JOIN UsersGroups.BelongsTo ON UsersGroups.Groups.group_id=UsersGroups.BelongsTo.group_id WHERE username = "koa2107"
+INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+DELETE FROM UsersGroups.BelongsTo WHERE group_id = 4 and username = "koa2107"
+INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+.DELETE FROM UsersGroups.Users WHERE username="foo1234"
+INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+SELECT * FROM UsersGroups.Users WHERE username = "foo1234"
+INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+.SELECT * FROM UsersGroups.Users WHERE username = "koa2107"
+INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+.INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+SELECT * FROM UsersGroups.Users WHERE first_name = 'Kaan'
+.foo1234
+INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+INSERT INTO UsersGroups.Users (username, first_name, last_name, address, city, state, country, gmail, phone_number) VALUES ('foo1234', 'Foo', 'Bar', '508 W 114th St.', 'New York', 'New York', 'USA', 'foo123@columbia.edu', '123-456-7
+890');
+SELECT * FROM UsersGroups.Users WHERE username = "foo1234"
+INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+.SELECT * FROM UsersGroups.Users WHERE username = "koa2107"
+INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+UPDATE UsersGroups.Users SET phone_number = "111-111-1111" WHERE username = "koa2107"
+INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+SELECT * FROM UsersGroups.Users WHERE username = "koa2107"
+INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+.
+----------------------------------------------------------------------
+Ran 6 tests in 2.547s
+
+OK
+
+
+C:\Users\kaany\PycharmProjects\flaskProject\UsersGroups\app_services\GroupsResource> python -m unittest
+.SELECT UsersGroups.Users.username, UsersGroups.Users.gmail FROM UsersGroups.Users INNER JOIN UsersGroups.BelongsTo ON UsersGroups.Users.username=UsersGroups.BelongsTo.username WHERE group_id = 1
+INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+.DELETE FROM UsersGroups.BelongsTo WHERE group_id = 2 and username = "by2289"
+INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+INSERT INTO UsersGroups.BelongsTo (group_id, username) VALUES (2, "by2289")
+INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+INSERT INTO UsersGroups.BelongsTo (group_id, username) VALUES (2, "by2289")
+INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+(1062, "Duplicate entry '2-by2289' for key 'BelongsTo.PRIMARY'")
+.SELECT * FROM UsersGroups.Groups order by group_id desc limit 1
+INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+17
+INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+INSERT INTO UsersGroups.Groups (group_id, name) VALUES (17, 'Group8');
+(1054, "Unknown column 'name' in 'field list'")
+..DELETE FROM UsersGroups.BelongsTo WHERE group_id = 1 and username = "by2289"
+INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+INSERT INTO UsersGroups.BelongsTo (group_id, username) VALUES (1, "by2289")
+INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+SELECT UsersGroups.Users.username, UsersGroups.Users.gmail FROM UsersGroups.Users INNER JOIN UsersGroups.BelongsTo ON UsersGroups.Users.username=UsersGroups.BelongsTo.username WHERE group_id = 1
+INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+.DELETE FROM UsersGroups.BelongsTo WHERE group_id=7
+INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+DELETE FROM UsersGroups.Groups WHERE group_id=7
+INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+SELECT * FROM UsersGroups.Groups WHERE group_id = 7
+.INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+SELECT * FROM UsersGroups.Groups
+.INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+SELECT * FROM UsersGroups.Groups WHERE group_id = 1
+.SELECT * FROM UsersGroups.Groups order by group_id desc limit 1
+INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+17
+INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+INSERT INTO UsersGroups.Groups (group_id, group_name) VALUES (17, 'Group7');
+INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+SELECT * FROM UsersGroups.Groups WHERE group_name = 'Group7'
+.DELETE FROM UsersGroups.BelongsTo WHERE group_id = 1 and username = "by2289"
+INFO:root:RDBService._get_db_connection:
+INFO:root:       HOST = database-1.cttng9yqvgom.us-east-1.rds.amazonaws.com
+res =  ()
+.
+----------------------------------------------------------------------
+Ran 11 tests in 2.820s
+
+OK
+

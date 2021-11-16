@@ -19,7 +19,7 @@ class TestGroupResource(unittest.TestCase):
         return self.assertEqual(success, True) \
                and self.assertEqual(res, expected)
 
-    def test_valid_get_by_non_empty_template(self):
+    def test_valid_get_by_non_empty_template_group_name(self):
         # This method tests the get_by_template()
         # passing in a valid group_name
         expected = [{'group_id': 1, 'group_name': 'Brian'}]
@@ -29,13 +29,14 @@ class TestGroupResource(unittest.TestCase):
         return self.assertEqual(success, True) \
                and self.assertEqual(res, expected)
 
-    def test_valid_get_by_non_empty_template(self):
+    def test_valid_get_by_non_empty_template_group_id(self):
         # This method tests the get_by_template() function
         # passing in a valid group_id
         expected = [{'group_id': 1, 'group_name': 'Brian'}]
         template = {'group_id': 1}
         success, res = GroupResource.get_by_template(template)
-        return self.assertEqual(success, True) and self.assertEqual(res, expected)
+        return self.assertEqual(success, True) \
+               and self.assertEqual(res, expected)
 
     def test_valid_insert_by_template(self):
         # This method tests the insert_by_template() function
@@ -94,8 +95,10 @@ class TestGroupResource(unittest.TestCase):
         expected = [{'username': 'by2289',
                      'gmail': 'by2289@columbia.edu',
                      'links': [{'rel': 'self', 'href': '/groups/1'},
-                               {'ref': 'username', 'href': '/users/by2289'},
-                               {'ref': 'email', 'href': 'by2289@columbia.edu'}]}]
+                               {'ref': 'username',
+                                'href': '/users/by2289'},
+                               {'ref': 'email',
+                                'href': 'by2289@columbia.edu'}]}]
 
         # Check if user is added to the group by getting all users in the group
         success2, res = GroupResource.get_users(group_id)
@@ -128,10 +131,13 @@ class TestGroupResource(unittest.TestCase):
         expected = [{'username': 'by2289',
                      'gmail': 'by2289@columbia.edu',
                      'links': [{'rel': 'self', 'href': '/groups/1'},
-                               {'ref': 'username', 'href': '/users/by2289'},
-                               {'ref': 'email', 'href': 'by2289@columbia.edu'}]}]
+                               {'ref': 'username',
+                                'href': '/users/by2289'},
+                               {'ref': 'email',
+                                'href': 'by2289@columbia.edu'}]}]
 
-        return self.assertEqual(success, True) and self.assertEqual(res, expected)
+        return self.assertEqual(success, True) \
+               and self.assertEqual(res, expected)
 
     def test_invalid_remove_user_from_group(self):
         # This method tests the remove_user_from_group() function

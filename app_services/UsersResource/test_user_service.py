@@ -1,8 +1,9 @@
 import sys
-sys.path.append('../GroupsResource')
 import unittest
+sys.path.append('../GroupsResource')
 from user_service import UserResource
 from group_service import GroupResource
+
 
 class TestUserService(unittest.TestCase):
 
@@ -94,8 +95,6 @@ class TestUserService(unittest.TestCase):
         success, res = GroupResource.remove_user_from_group(template,
                                                             group_id)
         self.assertEqual(success, True)
-
-
 
 
 if __name__ == '__main__':
