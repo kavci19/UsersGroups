@@ -57,20 +57,20 @@ Methods: "GET", "POST"
 Entry point: '/users/<user_id>'
 Methods: "GET", "PUT", "DELETE"
    
-   GET: Get the user with specified username from the Users database
+    GET: Get the user with specified username from the Users database
    
-   PUT: Update a user's information
+    PUT: Update a user's information
    
-   DELETE: Delete a user from the Users database
+    DELETE: Delete a user from the Users database
 
 
 
 Entry point: '/users/<user_id>/groups'
 Methods: "GET", "POST"
+
+    GET: Get list of all the groups the user belongs to
    
-   GET: Get list of all the groups the user belongs to
-   
-   POST: Add a user to a group
+    POST: Add a user to a group
 
 
 
